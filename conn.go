@@ -49,9 +49,7 @@ type conn struct {
 	loc               *time.Location
 	intToTime         bool
 	textToTime        bool
-	// declTimeText delivers the TEXT of a column declared DATE, DATETIME or
-	// TIMESTAMP as its stored string (_decltime=0).
-	declTimeText bool
+	declTimeText      bool // the TEXT of a declared time column as stored (_decltime=0)
 	integerTimeFormat string
 
 	// inMemory records whether the underlying database resides only in
