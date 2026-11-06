@@ -59,7 +59,7 @@ func main1() error {
 	// Connections handed out by the Connector carry it; connections from a
 	// caller-constructed &sqlite.Driver{} would not, because the package-level
 	// registration functions always apply to the driver registered as
-	// "sqlite". Such a Driver has to be filled in through its own methods.
+	// sqlite.DriverName. Such a Driver has to be filled in through its own methods.
 	if err := sqlite.RegisterDeterministicScalarFunction("meaning", 0,
 		func(*sqlite.FunctionContext, []driver.Value) (driver.Value, error) {
 			return int64(42), nil
@@ -130,8 +130,8 @@ func main1() error {
 		fmt.Printf("conn %d: meaning()=%d foreign_keys=%d\n", i+1, meaning, foreignKeys)
 	}
 
-	// db.Driver reports the driver registered as "sqlite", the same value
-	// sql.Open("sqlite", dsn) would have produced.
+	// db.Driver reports the driver registered as sqlite.DriverName, the same value
+	// sql.Open(sqlite.DriverName, dsn) would have produced.
 	fmt.Printf("db.Driver() is %T\n", db.Driver())
 	fmt.Printf("total physical connections: %d\n", tracer.connects.Load())
 

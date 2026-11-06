@@ -7,7 +7,6 @@ import (
 	"log"
 	"regexp"
 
-	_ "github.com/min-0-max/sqlite"
 	sqlite "github.com/min-0-max/sqlite"
 	"github.com/min-0-max/sqlite/vtab"
 )
@@ -147,7 +146,7 @@ func (c *reCursor) Rowid() (int64, error) { return int64(c.pos + 1), nil }
 func (c *reCursor) Close() error          { return nil }
 
 func main() {
-	db, err := sql.Open("sqlite", ":memory:")
+	db, err := sql.Open(sqlite.DriverName, ":memory:")
 	if err != nil {
 		log.Fatal(err)
 	}

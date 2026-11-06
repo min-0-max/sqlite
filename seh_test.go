@@ -21,7 +21,7 @@ import (
 func sehOpenWAL(t *testing.T) (db *sql.DB, path string) {
 	t.Helper()
 	path = filepath.Join(t.TempDir(), "seh.db")
-	db, err := sql.Open("sqlite", "file:"+path+"?_pragma=journal_mode(WAL)")
+	db, err := sql.Open(driverName, "file:"+path+"?_pragma=journal_mode(WAL)")
 	if err != nil {
 		t.Fatal(err)
 	}

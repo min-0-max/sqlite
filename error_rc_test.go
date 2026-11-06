@@ -49,7 +49,7 @@ func TestErrorRcOpenTimeUnopenable(t *testing.T) {
 			case "error_rc_on":
 				dsn += "?_error_rc=1"
 			}
-			db, err := sql.Open("sqlite", dsn)
+			db, err := sql.Open(driverName, dsn)
 			if err != nil {
 				t.Fatalf("Open: %v", err)
 			}
@@ -89,7 +89,7 @@ func TestErrorRcSyntaxErrorPreservesErrmsg(t *testing.T) {
 			if mode != "" {
 				dsn += "&" + mode
 			}
-			db, err := sql.Open("sqlite", dsn)
+			db, err := sql.Open(driverName, dsn)
 			if err != nil {
 				t.Fatalf("Open: %v", err)
 			}

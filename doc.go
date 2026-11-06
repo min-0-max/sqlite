@@ -142,7 +142,7 @@
 //	...
 //
 //
-//	db, err := sql.Open("sqlite", dsnURI)
+//	db, err := sql.Open(sqlite.DriverName, dsnURI)
 //
 //	...
 //

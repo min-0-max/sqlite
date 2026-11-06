@@ -6,7 +6,7 @@ import (
 )
 
 func TestNullBinding(t *testing.T) {
-	db, err := sql.Open("sqlite", "file::memory:")
+	db, err := sql.Open(driverName, "file::memory:")
 	if err != nil {
 		t.Errorf("cannot open: %v", err)
 		return

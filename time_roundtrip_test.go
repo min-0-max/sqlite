@@ -22,7 +22,7 @@ func TestTimeParameterRoundTrip(t *testing.T) {
 	for _, columnType := range []string{"DATE", "DATETIME", "TIMESTAMP"} {
 		for _, prepared := range []bool{false, true} {
 			t.Run(fmt.Sprintf("%s/prepared=%t", columnType, prepared), func(t *testing.T) {
-				db, err := sql.Open("sqlite", ":memory:?_time_format=string_no_monotonic")
+				db, err := sql.Open(driverName, ":memory:?_time_format=string_no_monotonic")
 				if err != nil {
 					t.Fatal(err)
 				}
@@ -87,7 +87,7 @@ func TestTimeDefaultFormatMonotonic(t *testing.T) {
 	if !strings.Contains(value.String(), " m=") {
 		t.Skip("time.Now does not contain a monotonic reading on this platform")
 	}
-	db, err := sql.Open("sqlite", ":memory:")
+	db, err := sql.Open(driverName, ":memory:")
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -135,7 +135,7 @@ func TestTimeStringFormats(t *testing.T) {
 // Existing strings remain readable; reading them must not silently rewrite the
 // database. Applications must normalize old values before SQL equality matches.
 func TestTimeLegacyMonotonicString(t *testing.T) {
-	db, err := sql.Open("sqlite", ":memory:?_time_format=string_no_monotonic")
+	db, err := sql.Open(driverName, ":memory:?_time_format=string_no_monotonic")
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -174,7 +174,7 @@ func TestTimeStringNoMonotonicOptions(t *testing.T) {
 		{"_time_integer_format=unix_nano", value.UnixNano()},
 	} {
 		t.Run(tc.query, func(t *testing.T) {
-			db, err := sql.Open("sqlite", ":memory:?_time_format=string_no_monotonic&"+tc.query)
+			db, err := sql.Open(driverName, ":memory:?_time_format=string_no_monotonic&"+tc.query)
 			if err != nil {
 				t.Fatal(err)
 			}

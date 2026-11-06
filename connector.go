@@ -11,7 +11,7 @@ import (
 )
 
 // NewConnector returns a driver.Connector that opens connections to dsn using
-// the driver this package registers as "sqlite" -- the one carrying every
+// the driver this package registers as DriverName -- the one carrying every
 // function, collation, connection hook and virtual table module registered
 // through RegisterFunction, RegisterScalarFunction,
 // RegisterDeterministicScalarFunction, RegisterCollationUtf8,
@@ -27,7 +27,7 @@ import (
 //	db := sql.OpenDB(c)
 //	defer db.Close()
 //
-// For opening a database this is equivalent to sql.Open("sqlite", dsn). It
+// For opening a database this is equivalent to sql.Open(DriverName, dsn). It
 // exists for callers that need to interpose on the physical connections
 // database/sql opens -- tracing, metrics, or connection-scoped setup. Such a
 // caller can embed the returned Connector, override Connect, and pass its own
@@ -97,8 +97,8 @@ func (c *connector) Connect(ctx context.Context) (driver.Conn, error) {
 }
 
 // Driver implements driver.Connector. It returns the driver registered as
-// "sqlite", so (*sql.DB).Driver() reports the same value for a database opened
-// through this Connector as for one opened with sql.Open("sqlite", dsn).
+// DriverName, so (*sql.DB).Driver() reports the same value for a database opened
+// through this Connector as for one opened with sql.Open(DriverName, dsn).
 func (c *connector) Driver() driver.Driver { return d }
 
 // dsnQuery returns the query-parameter portion of dsn, or "" when it has none.

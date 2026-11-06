@@ -170,7 +170,7 @@ func TestStrictPragmas(t *testing.T) {
 	open := func(t *testing.T, pragma string) (dir string, err error) {
 		dir = t.TempDir()
 		v := url.Values{"_pragma": {pragma}}
-		db, err := sql.Open("sqlite", filepath.Join(dir, "a.db")+"?"+v.Encode())
+		db, err := sql.Open(driverName, filepath.Join(dir, "a.db")+"?"+v.Encode())
 		if err != nil {
 			t.Fatal(err)
 		}
@@ -187,7 +187,7 @@ func TestStrictPragmas(t *testing.T) {
 	t.Run("off", func(t *testing.T) {
 		dir := t.TempDir()
 		v := url.Values{"_pragma": {attach(dir)}}
-		db, err := sql.Open("sqlite", filepath.Join(dir, "a.db")+"?"+v.Encode())
+		db, err := sql.Open(driverName, filepath.Join(dir, "a.db")+"?"+v.Encode())
 		if err != nil {
 			t.Fatal(err)
 		}
@@ -216,7 +216,7 @@ func TestStrictPragmas(t *testing.T) {
 	t.Run("rejected", func(t *testing.T) {
 		dir := t.TempDir()
 		v := url.Values{"_pragma": {"user_version=7", attach(dir)}}
-		db, err := sql.Open("sqlite", filepath.Join(dir, "a.db")+"?"+v.Encode())
+		db, err := sql.Open(driverName, filepath.Join(dir, "a.db")+"?"+v.Encode())
 		if err != nil {
 			t.Fatal(err)
 		}
@@ -233,7 +233,7 @@ func TestStrictPragmas(t *testing.T) {
 
 		// Rejected in the validation phase: the valid _pragma before it
 		// was not applied either.
-		db2, err := sql.Open("sqlite", filepath.Join(dir, "a.db"))
+		db2, err := sql.Open(driverName, filepath.Join(dir, "a.db"))
 		if err != nil {
 			t.Fatal(err)
 		}

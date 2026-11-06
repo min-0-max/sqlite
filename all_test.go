@@ -185,7 +185,7 @@ func TestIssue118(t *testing.T) {
 	// profile captures the samples that we are seeking below
 	for i := 0; i < 10000; i++ {
 		func() {
-			db, err := sql.Open("sqlite", ":memory:")
+			db, err := sql.Open(driverName, ":memory:")
 			if err != nil {
 				t.Fatal(err)
 			}
@@ -250,7 +250,7 @@ func TestIssue118(t *testing.T) {
 
 // https://gitlab.com/cznic/sqlite/issues/100
 func TestIssue100(t *testing.T) {
-	db, err := sql.Open("sqlite", ":memory:")
+	db, err := sql.Open(driverName, ":memory:")
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -922,7 +922,7 @@ INSERT INTO "products" ("id", "user_id", "name", "description", "created_at", "c
 		t.Fatal(err)
 	}
 
-	db, err := sql.Open("sqlite", "test.db")
+	db, err := sql.Open(driverName, "test.db")
 	if err != nil {
 		t.Fatal("failed to connect database")
 	}
@@ -1015,7 +1015,7 @@ func TestIssue20(t *testing.T) {
 	// 40000 PASS
 	// 30000 PASS
 	// 25000 PASS
-	db, err := sql.Open("sqlite", filepath.Join(tempDir, "foo.db")+"?_pragma=busy_timeout%3d50000")
+	db, err := sql.Open(driverName, filepath.Join(tempDir, "foo.db")+"?_pragma=busy_timeout%3d50000")
 	if err != nil {
 		t.Fatalf("foo.db open fail: %v", err)
 	}
@@ -1075,7 +1075,7 @@ func TestNoRows(t *testing.T) {
 		os.RemoveAll(tempDir)
 	}()
 
-	db, err := sql.Open("sqlite", filepath.Join(tempDir, "foo.db"))
+	db, err := sql.Open(driverName, filepath.Join(tempDir, "foo.db"))
 	if err != nil {
 		t.Fatalf("foo.db open fail: %v", err)
 	}
@@ -1097,7 +1097,7 @@ func TestNoRows(t *testing.T) {
 }
 
 func TestColumns(t *testing.T) {
-	db, err := sql.Open("sqlite", "file::memory:")
+	db, err := sql.Open(driverName, "file::memory:")
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -1130,7 +1130,7 @@ func TestColumns(t *testing.T) {
 
 // https://gitlab.com/cznic/sqlite/-/issues/32
 func TestColumnsNoRows(t *testing.T) {
-	db, err := sql.Open("sqlite", "file::memory:")
+	db, err := sql.Open(driverName, "file::memory:")
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -1168,7 +1168,7 @@ func TestIssue28(t *testing.T) {
 		os.RemoveAll(tempDir)
 	}()
 
-	db, err := sql.Open("sqlite", filepath.Join(tempDir, "test.db"))
+	db, err := sql.Open(driverName, filepath.Join(tempDir, "test.db"))
 	if err != nil {
 		t.Fatalf("test.db open fail: %v", err)
 	}
@@ -1197,7 +1197,7 @@ func TestColumnTypes(t *testing.T) {
 		os.RemoveAll(tempDir)
 	}()
 
-	db, err := sql.Open("sqlite", filepath.Join(tempDir, "test.db"))
+	db, err := sql.Open(driverName, filepath.Join(tempDir, "test.db"))
 	if err != nil {
 		t.Fatalf("test.db open fail: %v", err)
 	}
@@ -1266,7 +1266,7 @@ func TestColumnTypesNoRows(t *testing.T) {
 		os.RemoveAll(tempDir)
 	}()
 
-	db, err := sql.Open("sqlite", filepath.Join(tempDir, "test.db"))
+	db, err := sql.Open(driverName, filepath.Join(tempDir, "test.db"))
 	if err != nil {
 		t.Fatalf("test.db open fail: %v", err)
 	}
@@ -2303,7 +2303,7 @@ CREATE TABLE fileHash (
 }
 
 func saveHash(dbFile string, hash string, fileName string) (err error) {
-	db, err := sql.Open("sqlite", dbFile)
+	db, err := sql.Open(driverName, dbFile)
 	if err != nil {
 		return fmt.Errorf("could not open database: %v", err)
 	}
@@ -2336,7 +2336,7 @@ func executeSQL(db *sql.DB, query string, values ...interface{}) (*sql.Rows, err
 }
 
 func lookupHash(dbFile string, hash string) (ok bool, err error) {
-	db, err := sql.Open("sqlite", dbFile)
+	db, err := sql.Open(driverName, dbFile)
 	if err != nil {
 		return false, fmt.Errorf("could not open database: %n", err)
 	}
@@ -2785,7 +2785,7 @@ func TestIssue65(t *testing.T) {
 		os.RemoveAll(tempDir)
 	}()
 
-	db, err := sql.Open("sqlite", filepath.Join(tempDir, "testissue65.sqlite"))
+	db, err := sql.Open(driverName, filepath.Join(tempDir, "testissue65.sqlite"))
 	if err != nil {
 		t.Fatalf("Failed to open database: %v", err)
 	}
@@ -2797,7 +2797,7 @@ func TestIssue65(t *testing.T) {
 	// 20000 PASS, FAIL
 	// 40000 FAIL
 	// 80000 PASS, PASS
-	if db, err = sql.Open("sqlite", filepath.Join(tempDir, "testissue65b.sqlite")+"?_pragma=busy_timeout%3d80000"); err != nil {
+	if db, err = sql.Open(driverName, filepath.Join(tempDir, "testissue65b.sqlite")+"?_pragma=busy_timeout%3d80000"); err != nil {
 		t.Fatalf("Failed to open database: %v", err)
 	}
 
@@ -3063,7 +3063,7 @@ func TestBeginMode(t *testing.T) {
 				// t.Parallel()
 
 				qs := fmt.Sprintf("?_txlock=%s&_pragma=journal_mode(%s)", tt.mode, jm)
-				db, err := sql.Open("sqlite", filepath.Join(tempDir, fmt.Sprintf("testbeginmode-%s.sqlite", tt.mode))+qs)
+				db, err := sql.Open(driverName, filepath.Join(tempDir, fmt.Sprintf("testbeginmode-%s.sqlite", tt.mode))+qs)
 				if err != nil {
 					t.Fatalf("Failed to open database: %v", err)
 				}
@@ -3109,7 +3109,7 @@ func TestCancelRace(t *testing.T) {
 		os.RemoveAll(tempDir)
 	}()
 
-	db, err := sql.Open("sqlite", filepath.Join(tempDir, "testcancelrace.sqlite"))
+	db, err := sql.Open(driverName, filepath.Join(tempDir, "testcancelrace.sqlite"))
 	if err != nil {
 		t.Fatalf("Failed to open database: %v", err)
 	}
@@ -3210,14 +3210,14 @@ func TestVFS(t *testing.T) {
 		}
 	}()
 
-	db, err := sql.Open("sqlite", "file:embed.db?vfs="+fn)
+	db, err := sql.Open(driverName, "file:embed.db?vfs="+fn)
 	if err != nil {
 		t.Fatal(err)
 	}
 
 	defer db.Close()
 
-	db2, err := sql.Open("sqlite", "file:embed2.db?vfs="+f2n)
+	db2, err := sql.Open(driverName, "file:embed2.db?vfs="+f2n)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -3680,7 +3680,7 @@ func (c *concurrentBenchmark) makeWriters(n int, mode string) {
 }
 
 func TestColumnInfo(t *testing.T) {
-	db, err := sql.Open("sqlite", ":memory:")
+	db, err := sql.Open(driverName, ":memory:")
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -3805,7 +3805,7 @@ func TestColumnInfo(t *testing.T) {
 }
 
 func TestLimit(t *testing.T) {
-	db, err := sql.Open("sqlite", ":memory:")
+	db, err := sql.Open(driverName, ":memory:")
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -3856,7 +3856,7 @@ func TestIssue152(t *testing.T) {
 }
 
 func testIssue152(t *testing.T, query string) {
-	db, err := sql.Open("sqlite", ":memory:")
+	db, err := sql.Open(driverName, ":memory:")
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -3904,7 +3904,7 @@ func TestIssue153(t *testing.T) {
 }
 
 func testIssue153(t *testing.T, query string) {
-	db, err := sql.Open("sqlite", ":memory:")
+	db, err := sql.Open(driverName, ":memory:")
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -3962,7 +3962,7 @@ func TestCollation(t *testing.T) {
 
 	withDB := func(test func(db *sql.DB)) func(t *testing.T) {
 		return func(t *testing.T) {
-			db, err := sql.Open("sqlite", "file::memory:")
+			db, err := sql.Open(driverName, "file::memory:")
 			if err != nil {
 				t.Fatalf("failed to open database: %v", err)
 			}
@@ -4035,7 +4035,7 @@ func TestCollation(t *testing.T) {
 // https://gitlab.com/cznic/sqlite/-/issues/171#note_1737746192
 func TestIssue171(t *testing.T) {
 	tempDir := t.TempDir()
-	db, err := sql.Open("sqlite", fmt.Sprintf("file:%s?_pragma=journal_mode(WAL)", filepath.Join(tempDir, "db.db")))
+	db, err := sql.Open(driverName, fmt.Sprintf("file:%s?_pragma=journal_mode(WAL)", filepath.Join(tempDir, "db.db")))
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -4092,7 +4092,7 @@ func TestIssue209(t *testing.T) {
 	})
 
 	tempDir := t.TempDir()
-	db, err := sql.Open("sqlite", fmt.Sprintf("file:%s?_pragma=journal_mode(WAL)", filepath.Join(tempDir, "db.db")))
+	db, err := sql.Open(driverName, fmt.Sprintf("file:%s?_pragma=journal_mode(WAL)", filepath.Join(tempDir, "db.db")))
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -4140,7 +4140,7 @@ func TestIsReadOnly(t *testing.T) {
 	dbPath := filepath.Join(dir, nm)
 
 	// Create the database and verify it is NOT read-only
-	db, err := sql.Open("sqlite", fmt.Sprintf("file:%s", dbPath))
+	db, err := sql.Open(driverName, fmt.Sprintf("file:%s", dbPath))
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -4178,7 +4178,7 @@ func TestIsReadOnly(t *testing.T) {
 	// Re-open and verify it IS read-only
 	// Note: We use mode=ro to force SQLite to respect the read-only nature explicitly,
 	// though purely filesystem permissions usually suffice for SQLite to detect it.
-	dbRO, err := sql.Open("sqlite", fmt.Sprintf("file:%s?mode=ro", dbPath))
+	dbRO, err := sql.Open(driverName, fmt.Sprintf("file:%s?mode=ro", dbPath))
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -4211,7 +4211,7 @@ func TestTxCommitBusyFix(t *testing.T) {
 
 	// Helper to open a connection
 	openDB := func() *sql.DB {
-		db, err := sql.Open("sqlite", dbPath)
+		db, err := sql.Open(driverName, dbPath)
 		if err != nil {
 			t.Fatalf("failed to open db: %v", err)
 		}
@@ -4305,7 +4305,7 @@ func TestTxCommitBusyFix(t *testing.T) {
 // This is a regression test for a double-free bug of stale bind-parameter memory.
 // Run with -race to enable checkptr, which catches the problem quickly and reliably.
 func TestMultiStmtQueryStringRoundtrip(t *testing.T) {
-	db, err := sql.Open("sqlite", "file::memory:")
+	db, err := sql.Open(driverName, "file::memory:")
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -4366,7 +4366,7 @@ func TestMultiStmtQueryStringRoundtrip(t *testing.T) {
 // TestExecReturningMultiRow verifies that Exec() with a DML RETURNING clause
 // that affects multiple rows completes the full operation (not just the first row).
 func TestExecReturningMultiRow(t *testing.T) {
-	db, err := sql.Open("sqlite", ":memory:")
+	db, err := sql.Open(driverName, ":memory:")
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -4457,7 +4457,7 @@ func TestExecReturningMultiRow(t *testing.T) {
 }
 
 func TestExecReturningMultiStatement(t *testing.T) {
-	db, err := sql.Open("sqlite", ":memory:")
+	db, err := sql.Open(driverName, ":memory:")
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -4494,7 +4494,7 @@ func TestExecReturningMultiStatement(t *testing.T) {
 // TestExecReturningCancelDuringDrain verifies that cancelling the context
 // during the row-drain loop of a DML RETURNING Exec returns an error.
 func TestExecReturningCancelDuringDrain(t *testing.T) {
-	db, err := sql.Open("sqlite", ":memory:")
+	db, err := sql.Open(driverName, ":memory:")
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -4534,7 +4534,7 @@ func TestExecReturningCancelDuringDrain(t *testing.T) {
 
 func TestDBPageVtab(t *testing.T) {
 	// Open an in-memory database
-	db, err := sql.Open("sqlite", ":memory:")
+	db, err := sql.Open(driverName, ":memory:")
 	if err != nil {
 		t.Fatalf("Failed to open database: %v", err)
 	}

@@ -97,10 +97,10 @@ func TestConnectorAppliesGlobalRegistrations(t *testing.T) {
 }
 
 // TestConnectorDriverIsRegisteredDriver checks that the Connector reports the
-// same driver value database/sql hands out for sql.Open("sqlite", ...), which
+// same driver value database/sql hands out for sql.Open(driverName, ...), which
 // is what makes it a drop-in for code reaching the driver through db.Driver().
 func TestConnectorDriverIsRegisteredDriver(t *testing.T) {
-	viaOpen, err := sql.Open("sqlite", "file::memory:")
+	viaOpen, err := sql.Open(driverName, "file::memory:")
 	if err != nil {
 		t.Fatalf("sql.Open: %v", err)
 	}

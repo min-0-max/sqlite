@@ -17,7 +17,7 @@ import (
 	"golang.org/x/sync/errgroup"
 
 	_ "github.com/mattn/go-sqlite3"
-	_ "github.com/min-0-max/sqlite"
+	"github.com/min-0-max/sqlite"
 )
 
 func main() {
@@ -32,7 +32,7 @@ func main() {
 	connStr := "file://" + dbSlash + "?_pragma=foreign_keys(1)&_pragma=journal_mode(WAL)&_pragma=synchronous(NORMAL)&_pragma=busy_timeout(10000)"
 	// connStr = "file:///" + dbSlash + "?_foreign_keys=1&_journal_mode=WAL&_synchronous=NORMAL&_busy_timeout=10000&_mutex=no"
 	fmt.Printf("connecting to %s\n", connStr)
-	db, err := sql.Open("sqlite", connStr)
+	db, err := sql.Open(sqlite.DriverName, connStr)
 	if err != nil {
 		panic(err)
 	}

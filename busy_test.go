@@ -25,7 +25,7 @@ func busyTestConns(t *testing.T, dir, name, busyTimeout, journalMode, lockSQL st
 	if journalMode != "" {
 		dsn += "&_pragma=journal_mode(" + journalMode + ")"
 	}
-	db, err := sql.Open("sqlite", dsn)
+	db, err := sql.Open(driverName, dsn)
 	if err != nil {
 		t.Fatal(err)
 	}

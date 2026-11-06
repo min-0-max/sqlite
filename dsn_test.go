@@ -16,7 +16,7 @@ func TestDSNPragmas(t *testing.T) {
 	verifyPragma := func(t *testing.T, query string, kvs ...string) {
 		// some PRAGMAs may require a physical database so using a real one even though it's never created
 		dbPath := fmt.Sprintf("%s?%s", filepath.Join(t.TempDir(), "tmp.db"), query)
-		db, err := sql.Open("sqlite", dbPath)
+		db, err := sql.Open(driverName, dbPath)
 		if err != nil {
 			t.Fatal(err)
 		}
@@ -47,7 +47,7 @@ func TestDSNPragmas(t *testing.T) {
 	// the connection is established, so the error surfaces on first use.
 	verifyPragmaError := func(t *testing.T, query, wantSubstr string) {
 		dbPath := fmt.Sprintf("%s?%s", filepath.Join(t.TempDir(), "tmp.db"), query)
-		db, err := sql.Open("sqlite", dbPath)
+		db, err := sql.Open(driverName, dbPath)
 		if err != nil {
 			t.Fatal(err)
 		}
@@ -217,7 +217,7 @@ func TestDSNPragmas(t *testing.T) {
 			t.Helper()
 			dbPath := filepath.Join(t.TempDir(), "tmp.db")
 
-			db, err := sql.Open("sqlite", dbPath+"?"+query)
+			db, err := sql.Open(driverName, dbPath+"?"+query)
 			if err != nil {
 				t.Fatal(err)
 			}
@@ -232,7 +232,7 @@ func TestDSNPragmas(t *testing.T) {
 			db.Close()
 
 			// Reopen without parameters and confirm the file was left alone.
-			db2, err := sql.Open("sqlite", dbPath)
+			db2, err := sql.Open(driverName, dbPath)
 			if err != nil {
 				t.Fatal(err)
 			}

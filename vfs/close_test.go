@@ -27,7 +27,7 @@ func TestFSCloseInUse(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	db, err := sql.Open("sqlite", "file:"+dbname+"?vfs="+name)
+	db, err := sql.Open(sqlite.DriverName, "file:"+dbname+"?vfs="+name)
 	if err != nil {
 		t.Fatal(err)
 	}

@@ -32,7 +32,7 @@ func TestVFS(t *testing.T) {
 	tmpdbdir := t.TempDir()
 
 	func() {
-		db, err := sql.Open("sqlite", "file:"+filepath.Join(tmpdbdir, dbname))
+		db, err := sql.Open(sqlite.DriverName, "file:"+filepath.Join(tmpdbdir, dbname))
 		if err != nil {
 			t.Fatalf("unexpected failure to open database, %s", err.Error())
 		}
@@ -55,7 +55,7 @@ func TestVFS(t *testing.T) {
 	}
 	defer fs.Close()
 
-	db, err := sql.Open("sqlite", "file:"+dbname+"?vfs="+vfsid)
+	db, err := sql.Open(sqlite.DriverName, "file:"+dbname+"?vfs="+vfsid)
 	if err != nil {
 		t.Fatalf("unexpected failure to open database, %s", err.Error())
 	}
@@ -86,7 +86,7 @@ func TestVFS(t *testing.T) {
 // settled on-disk file.
 func seedDB(t *testing.T, dir, name string, stmts ...string) {
 	t.Helper()
-	db, err := sql.Open("sqlite", "file:"+filepath.Join(dir, name))
+	db, err := sql.Open(sqlite.DriverName, "file:"+filepath.Join(dir, name))
 	if err != nil {
 		t.Fatalf("open database: %s", err)
 	}
@@ -107,7 +107,7 @@ func openDBViaVFS(t *testing.T, name string, fsys fs.FS) *sql.DB {
 		t.Fatalf("register vfs: %s", err)
 	}
 	t.Cleanup(func() { vfsFS.Close() })
-	db, err := sql.Open("sqlite", "file:"+name+"?vfs="+vfsid)
+	db, err := sql.Open(sqlite.DriverName, "file:"+name+"?vfs="+vfsid)
 	if err != nil {
 		t.Fatalf("open database via vfs: %s", err)
 	}

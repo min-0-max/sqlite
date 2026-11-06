@@ -20,9 +20,9 @@ import (
 // *Driver can be handed out for several packages to fill from their init
 // functions; the ordering requirement against Open still stands.
 //
-// Most code has no use for this type. sql.Open("sqlite", dsn) and
+// Most code has no use for this type. sql.Open(DriverName, dsn) and
 // [NewConnector] both go through the driver this package registers as
-// "sqlite", which carries everything registered with [RegisterFunction],
+// DriverName, which carries everything registered with [RegisterFunction],
 // [RegisterScalarFunction], [RegisterDeterministicScalarFunction],
 // [RegisterCollationUtf8], [RegisterConnectionHook] and
 // [vtab.RegisterModule].
@@ -343,7 +343,7 @@ func (d *Driver) Open(name string) (conn driver.Conn, err error) {
 // is opened. This is called after all the connection has been set up.
 //
 // The hook applies only to connections opened by d. To register one on the
-// driver this package registers as "sqlite", and so on the connections
+// driver this package registers as DriverName, and so on the connections
 // sql.Open and [NewConnector] hand out, use the package-level
 // [RegisterConnectionHook].
 func (d *Driver) RegisterConnectionHook(fn ConnectionHookFn) {

@@ -94,7 +94,7 @@ type AuthorizerFn func(action AuthorizerActionCode, arg1, arg2, databaseName, tr
 //		}
 //		return registerer.RegisterAuthorizer(fn)
 //	})
-//	db, err := sql.Open("sqlite", dsn)
+//	db, err := sql.Open(DriverName, dsn)
 //
 // Use [Driver.RegisterConnectionHook] instead for a caller-constructed Driver.
 // The hook runs once for each newly opened connection. Install the policy in

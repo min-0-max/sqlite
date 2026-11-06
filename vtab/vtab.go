@@ -315,10 +315,10 @@ func SetRegisterFunc(fn func(name string, m Module) error) { registerHook = fn }
 // connections when a module cannot be installed.
 //
 // The db parameter selects which driver the module is registered on. A nil db
-// registers on the driver this package's engine registers as "sqlite", which
+// registers on the driver this package's engine registers as DriverName, which
 // is what every caller got before db was honoured. A non-nil db registers on
 // the driver backing it, as reported by (*sql.DB).Driver, when that driver
-// implements [ModuleRegisterer]; for a db opened against the "sqlite" driver
+// implements [ModuleRegisterer]; for a db opened against the DriverName driver
 // that is the same driver as the nil case, so the outcome is unchanged.
 // Otherwise the engine's driver is used, so a db wrapped by another driver
 // still registers somewhere useful rather than failing.

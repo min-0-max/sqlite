@@ -38,7 +38,7 @@ func TestMain(m *testing.M) {
 func openTestDB(t *testing.T) *sql.DB {
 	t.Helper()
 	path := filepath.Join(t.TempDir(), "e2e.db")
-	db, err := sql.Open("sqlite", path)
+	db, err := sql.Open(sqlite.DriverName, path)
 	if err != nil {
 		t.Fatalf("sql.Open: %v", err)
 	}
@@ -171,7 +171,7 @@ func TestPoolMultipleDatabases(t *testing.T) {
 	const dbs = 4
 	for i := 0; i < dbs; i++ {
 		path := filepath.Join(t.TempDir(), fmt.Sprintf("multi-%d.db", i))
-		db, err := sql.Open("sqlite", path)
+		db, err := sql.Open(sqlite.DriverName, path)
 		if err != nil {
 			t.Fatalf("Open[%d]: %v", i, err)
 		}
@@ -227,7 +227,7 @@ func TestSharedCacheTwoConns_Integrity(t *testing.T) {
 	// identical, so both db.Conn() calls below feed into one Cache.
 	dbPath := filepath.Join(t.TempDir(), "shared.db")
 	dsn := "file:" + dbPath + "?cache=shared&_pragma=journal_mode(WAL)&_pragma=busy_timeout(5000)"
-	db, err := sql.Open("sqlite", dsn)
+	db, err := sql.Open(sqlite.DriverName, dsn)
 	if err != nil {
 		t.Fatalf("sql.Open: %v", err)
 	}

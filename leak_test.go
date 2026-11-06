@@ -68,7 +68,7 @@ func TestOpenV2FailureResourceLeak(t *testing.T) {
 //   - UPDATE … WHERE 0 → bind allocs=[ptr_A], SQLITE_DONE, r!=nil → nop (ptr_A retained in allocs)
 //   - SELECT ?         → bind allocs=[ptr_B] (ptr_A leaked), SQLITE_ROW
 func TestMultiStmtNopAllocsLeak(t *testing.T) {
-	db, err := sql.Open("sqlite", "file::memory:")
+	db, err := sql.Open(driverName, "file::memory:")
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -125,7 +125,7 @@ func TestMultiStmtNopAllocsLeak(t *testing.T) {
 // Pattern: INSERT INTO t VALUES(?); SELECT 1 — with a duplicate value
 //   - INSERT INTO t VALUES(?) → bind allocs=[ptr_A], step error → allocs leaked
 func TestMultiStmtErrorAllocsLeak(t *testing.T) {
-	db, err := sql.Open("sqlite", "file::memory:")
+	db, err := sql.Open(driverName, "file::memory:")
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -183,7 +183,7 @@ func TestMultiStmtErrorAllocsLeak(t *testing.T) {
 //   - SELECT ? → SQLITE_ROW, r set (holds pstmt + allocs)
 //   - INSERT   → step error (UNIQUE violation) → return nil, err → r orphaned
 func TestMultiStmtOrphanedRowsOnError(t *testing.T) {
-	db, err := sql.Open("sqlite", "file::memory:")
+	db, err := sql.Open(driverName, "file::memory:")
 	if err != nil {
 		t.Fatal(err)
 	}

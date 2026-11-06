@@ -46,8 +46,14 @@ var (
 	_ error                                 = (*Error)(nil)
 )
 
+// DriverName is the name this package registers its driver under with
+// database/sql. It differs from the name the module this fork comes from
+// registers, "sqlite", so that a program linking both modules initializes:
+// database/sql panics when one name is registered twice.
+const DriverName = "polyspec-sqlite"
+
 const (
-	driverName              = "sqlite"
+	driverName              = DriverName
 	ptrSize                 = unsafe.Sizeof(uintptr(0))
 	sqliteLockedSharedcache = sqlite3.SQLITE_LOCKED | (1 << 8)
 )
@@ -667,7 +673,7 @@ type collation struct {
 // - if A<B and B<C, then A<C.
 //
 // The new collation will be available to all new connections the driver
-// registered as "sqlite" opens after executing RegisterCollationUtf8.
+// registered as DriverName opens after executing RegisterCollationUtf8.
 func RegisterCollationUtf8(
 	zName string,
 	impl func(left, right string) int,
@@ -765,7 +771,7 @@ const sqliteValPtrSize = unsafe.Sizeof(&sqlite3.Sqlite3_value{})
 // Scalar is not defined and MakeAggregate is defined).
 //
 // The new function will be available to all new connections the driver
-// registered as "sqlite" opens after executing RegisterFunction.
+// registered as DriverName opens after executing RegisterFunction.
 func RegisterFunction(
 	zFuncName string,
 	impl *FunctionImpl,
@@ -787,7 +793,7 @@ func MustRegisterFunction(
 // arguments. Passing -1 for nArg indicates the function is variadic.
 //
 // The new function will be available to all new connections the driver
-// registered as "sqlite" opens after executing RegisterScalarFunction.
+// registered as DriverName opens after executing RegisterScalarFunction.
 func RegisterScalarFunction(
 	zFuncName string,
 	nArg int32,
@@ -837,7 +843,7 @@ func MustRegisterDeterministicScalarFunction(
 // always gives the same output when the input parameters are the same.
 //
 // The new function will be available to all new connections the driver
-// registered as "sqlite" opens after executing
+// registered as DriverName opens after executing
 // RegisterDeterministicScalarFunction.
 func RegisterDeterministicScalarFunction(
 	zFuncName string,
@@ -907,7 +913,7 @@ func (d *Driver) registerFunction(
 }
 
 // RegisterConnectionHook registers a function to be called after each
-// connection the driver registered as "sqlite" opens. This is called after all
+// connection the driver registered as DriverName opens. This is called after all
 // the connection has been set up. Use [Driver.RegisterConnectionHook] to hook
 // the connections of a caller-constructed Driver instead.
 func RegisterConnectionHook(fn ConnectionHookFn) {

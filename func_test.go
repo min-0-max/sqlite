@@ -295,7 +295,7 @@ func BenchmarkUDFArgsAllocation(b *testing.B) {
 
 func TestRegisteredFunctions(t *testing.T) {
 	withDB := func(test func(db *sql.DB)) {
-		db, err := sql.Open("sqlite", "file::memory:")
+		db, err := sql.Open(driverName, "file::memory:")
 		if err != nil {
 			t.Fatalf("failed to open database: %v", err)
 		}
@@ -752,7 +752,7 @@ func TestRegisteredFunctions(t *testing.T) {
 		// Deserialize passes the buffer to sqlite3_deserialize with FREEONCLOSE|RESIZEABLE,
 		// so the buffer must come from sqlite3_malloc.
 		// If it comes from the wrong allocator, sqlite3_free or sqlite3_realloc on the buffer crashes.
-		db, err := sql.Open("sqlite", "file::memory:")
+		db, err := sql.Open(driverName, "file::memory:")
 		if err != nil {
 			tt.Fatal(err)
 		}

@@ -42,7 +42,7 @@ import (
 // numbers; this benchmark is the reproducer.
 func BenchmarkPoolBoundedCache(b *testing.B) {
 	path := filepath.Join(b.TempDir(), "bench.db")
-	db, err := sql.Open("sqlite", path)
+	db, err := sql.Open(sqlite.DriverName, path)
 	if err != nil {
 		b.Fatalf("Open: %v", err)
 	}
@@ -110,7 +110,7 @@ func BenchmarkPoolBoundedCache(b *testing.B) {
 // rather than deferring to them.
 func BenchmarkPoolEvictionChurn(b *testing.B) {
 	path := filepath.Join(b.TempDir(), "churn.db")
-	db, err := sql.Open("sqlite", path)
+	db, err := sql.Open(sqlite.DriverName, path)
 	if err != nil {
 		b.Fatalf("Open: %v", err)
 	}
@@ -227,7 +227,7 @@ func dbStatus(b *testing.B, conn *sql.Conn, op sqlite.DBStatusOp) int {
 // per-connection db_status counters refer to the same connection.
 func BenchmarkPoolSpillIO(b *testing.B) {
 	path := filepath.Join(b.TempDir(), "spillio.db")
-	db, err := sql.Open("sqlite", path)
+	db, err := sql.Open(sqlite.DriverName, path)
 	if err != nil {
 		b.Fatalf("Open: %v", err)
 	}

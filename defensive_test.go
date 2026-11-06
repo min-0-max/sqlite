@@ -44,7 +44,7 @@ func TestDefensiveDSNValidation(t *testing.T) {
 	} {
 		t.Run(tc.name, func(t *testing.T) {
 			dbPath := filepath.Join(t.TempDir(), "invalid.db")
-			db, err := sql.Open("sqlite", dbPath+tc.query)
+			db, err := sql.Open(driverName, dbPath+tc.query)
 			if err != nil {
 				t.Fatal(err)
 			}
@@ -62,7 +62,7 @@ func TestDefensiveDSNValidation(t *testing.T) {
 
 func TestDefensiveModeBlocksDangerousOperations(t *testing.T) {
 	dbPath := filepath.Join(t.TempDir(), "defensive.db")
-	db, err := sql.Open("sqlite", dbPath+"?_defensive=1")
+	db, err := sql.Open(driverName, dbPath+"?_defensive=1")
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -111,7 +111,7 @@ func TestDefensiveModeBlocksDangerousOperations(t *testing.T) {
 
 func TestDefensiveModeAppliesBeforeUserPragma(t *testing.T) {
 	dbPath := filepath.Join(t.TempDir(), "ordering.db")
-	db, err := sql.Open("sqlite", dbPath+"?_defensive=1&_pragma=journal_mode(OFF)")
+	db, err := sql.Open(driverName, dbPath+"?_defensive=1&_pragma=journal_mode(OFF)")
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -128,7 +128,7 @@ func TestDefensiveModeAppliesBeforeUserPragma(t *testing.T) {
 
 func TestDefensiveModeAppliesToEveryPhysicalConnection(t *testing.T) {
 	dbPath := filepath.Join(t.TempDir(), "pool.db")
-	db, err := sql.Open("sqlite", dbPath+"?_defensive=1")
+	db, err := sql.Open(driverName, dbPath+"?_defensive=1")
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -168,7 +168,7 @@ func TestDefensiveModeAppliesToEveryPhysicalConnection(t *testing.T) {
 
 func TestDefensiveOffPoolIsANegativeControl(t *testing.T) {
 	dbPath := filepath.Join(t.TempDir(), "pool-control.db")
-	db, err := sql.Open("sqlite", dbPath+"?_defensive=0")
+	db, err := sql.Open(driverName, dbPath+"?_defensive=0")
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -209,7 +209,7 @@ func TestDefensiveOffPoolIsANegativeControl(t *testing.T) {
 func TestDefensiveBooleanForms(t *testing.T) {
 	for _, value := range []string{"1", "true", "TRUE", "t"} {
 		t.Run("on_"+value, func(t *testing.T) {
-			db, err := sql.Open("sqlite", filepath.Join(t.TempDir(), "on.db")+"?_defensive="+value)
+			db, err := sql.Open(driverName, filepath.Join(t.TempDir(), "on.db")+"?_defensive="+value)
 			if err != nil {
 				t.Fatal(err)
 			}
@@ -235,7 +235,7 @@ func TestDefensiveAbsentOrFalseIsBaseline(t *testing.T) {
 	for _, suffix := range []string{"", "?_defensive=0", "?_defensive=false", "?_defensive=FALSE", "?_defensive=f"} {
 		t.Run(suffix, func(t *testing.T) {
 			dbPath := filepath.Join(t.TempDir(), "negative-control.db")
-			db, err := sql.Open("sqlite", dbPath+suffix)
+			db, err := sql.Open(driverName, dbPath+suffix)
 			if err != nil {
 				t.Fatal(err)
 			}
@@ -280,7 +280,7 @@ func TestDefensiveRejectsJournalModeOff(t *testing.T) {
 	} {
 		t.Run(tc.query, func(t *testing.T) {
 			dbPath := filepath.Join(t.TempDir(), "journal.db")
-			db, err := sql.Open("sqlite", dbPath+tc.query)
+			db, err := sql.Open(driverName, dbPath+tc.query)
 			if err != nil {
 				t.Fatal(err)
 			}
@@ -300,7 +300,7 @@ func TestDefensiveRejectsJournalModeOff(t *testing.T) {
 			// persistent, so a database converted here would outlive the
 			// failed Open.
 			var mode string
-			check, err := sql.Open("sqlite", dbPath)
+			check, err := sql.Open(driverName, dbPath)
 			if err != nil {
 				t.Fatal(err)
 			}
@@ -327,7 +327,7 @@ func TestDefensiveDSNForms(t *testing.T) {
 		{"file_memory", "file::memory:?cache=shared&mode=memory&_defensive=1"},
 	} {
 		t.Run(tc.name, func(t *testing.T) {
-			db, err := sql.Open("sqlite", tc.dsn)
+			db, err := sql.Open(driverName, tc.dsn)
 			if err != nil {
 				t.Fatal(err)
 			}
@@ -360,7 +360,7 @@ func TestDefensiveDSNForms(t *testing.T) {
 // machinery defensive mode guards.
 func TestDefensiveLeavesOrdinaryUseIntact(t *testing.T) {
 	dbPath := filepath.Join(t.TempDir(), "workload.db")
-	db, err := sql.Open("sqlite", dbPath+"?_defensive=1&_journal_mode=WAL&_auto_vacuum=FULL"+
+	db, err := sql.Open(driverName, dbPath+"?_defensive=1&_journal_mode=WAL&_auto_vacuum=FULL"+
 		"&_foreign_keys=1&_busy_timeout=1000&_synchronous=NORMAL&_txlock=immediate&_dqs=0"+
 		"&_pragma=cache_size(-2000)")
 	if err != nil {
@@ -448,7 +448,7 @@ func TestDefensiveIsPerConnection(t *testing.T) {
 	ctx := context.Background()
 	dbPath := filepath.Join(t.TempDir(), "scope.db")
 
-	hard, err := sql.Open("sqlite", dbPath+"?_defensive=1")
+	hard, err := sql.Open(driverName, dbPath+"?_defensive=1")
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -464,7 +464,7 @@ func TestDefensiveIsPerConnection(t *testing.T) {
 		t.Fatal("defensive connection allowed a direct sqlite_schema write")
 	}
 
-	soft, err := sql.Open("sqlite", dbPath)
+	soft, err := sql.Open(driverName, dbPath)
 	if err != nil {
 		t.Fatal(err)
 	}

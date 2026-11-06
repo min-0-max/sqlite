@@ -6,7 +6,7 @@ import (
 	"os"
 	"path/filepath"
 
-	_ "github.com/min-0-max/sqlite"
+	"github.com/min-0-max/sqlite"
 )
 
 func main() {
@@ -26,7 +26,7 @@ func main1() error {
 
 	fn := filepath.Join(dir, "db")
 
-	db, err := sql.Open("sqlite", fn)
+	db, err := sql.Open(sqlite.DriverName, fn)
 	if err != nil {
 		return err
 	}

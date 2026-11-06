@@ -13,7 +13,7 @@ import (
 	"strings"
 	"unicode/utf8"
 
-	_ "github.com/min-0-max/sqlite"
+	"github.com/min-0-max/sqlite"
 	"github.com/min-0-max/sqlite/vtab"
 )
 
@@ -315,7 +315,7 @@ func main() {
 		log.Fatal(err)
 	}
 
-	db, err := sql.Open("sqlite", ":memory:")
+	db, err := sql.Open(sqlite.DriverName, ":memory:")
 	if err != nil {
 		log.Fatal(err)
 	}

@@ -54,7 +54,7 @@ func TestDQSOptIn(t *testing.T) {
 	}
 	for _, tc := range cases {
 		t.Run(tc.name, func(t *testing.T) {
-			db, err := sql.Open("sqlite", tc.dsn)
+			db, err := sql.Open(driverName, tc.dsn)
 			if err != nil {
 				t.Fatalf("Open: %v", err)
 			}
