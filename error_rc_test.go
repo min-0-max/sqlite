@@ -12,7 +12,7 @@ import (
 	"strings"
 	"testing"
 
-	sqlite3 "modernc.org/sqlite/lib"
+	sqlite3 "github.com/min-0-max/sqlite/lib"
 )
 
 // TestErrorRcOpenTimeUnopenable pins the per-#230 invariants for an

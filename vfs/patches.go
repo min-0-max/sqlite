@@ -40,8 +40,8 @@ import (
 	"sync/atomic"
 	"unsafe"
 
+	sqlite3 "github.com/min-0-max/sqlite/lib"
 	"modernc.org/libc"
-	sqlite3 "modernc.org/sqlite/lib"
 )
 
 // ErrInUse is returned, wrapped, by [FS.Close] while a database opened through

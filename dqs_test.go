@@ -9,7 +9,7 @@ import (
 	"strings"
 	"testing"
 
-	sqlite3 "modernc.org/sqlite/lib"
+	sqlite3 "github.com/min-0-max/sqlite/lib"
 )
 
 // TestDQSConfigCallVaList pins the mixed-vararg FFI shape of

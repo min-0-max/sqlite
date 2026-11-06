@@ -37,8 +37,8 @@
 package vec
 
 import (
+	sqlite3 "github.com/min-0-max/sqlite/lib"
 	"modernc.org/libc"
-	sqlite3 "modernc.org/sqlite/lib"
 )
 
 func init() {

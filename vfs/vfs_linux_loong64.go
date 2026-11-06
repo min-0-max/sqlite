@@ -11,7 +11,7 @@ import (
 
 	"modernc.org/libc"
 
-	"modernc.org/sqlite/lib"
+	"github.com/min-0-max/sqlite/lib"
 )
 
 var (

@@ -16,7 +16,7 @@
 // Check is what the test suite and the pipeline run. The file is written by
 // vendor_libs/main.go, which is a separate, build-tagged tool; it computes
 // OutputDigest the same way, and a disagreement between the two fails Check.
-package vendorstamp // import "modernc.org/sqlite/internal/vendorstamp"
+package vendorstamp // import "github.com/min-0-max/sqlite/internal/vendorstamp"
 
 import (
 	"bufio"

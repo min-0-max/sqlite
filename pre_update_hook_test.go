@@ -7,8 +7,8 @@ import (
 	"strings"
 	"testing"
 
-	"modernc.org/sqlite"
-	sqlite3 "modernc.org/sqlite/lib"
+	"github.com/min-0-max/sqlite"
+	sqlite3 "github.com/min-0-max/sqlite/lib"
 )
 
 func TestPreUpdateHook(t *testing.T) {

@@ -10,7 +10,7 @@ import (
 	"testing"
 	"testing/synctest"
 
-	sqlite3 "modernc.org/sqlite/lib"
+	sqlite3 "github.com/min-0-max/sqlite/lib"
 )
 
 func TestInterruptBeforeFirstStep(t *testing.T) {

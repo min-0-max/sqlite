@@ -1,4 +1,4 @@
-module modernc.org/sqlite
+module github.com/min-0-max/sqlite
 
 go 1.26.0
 

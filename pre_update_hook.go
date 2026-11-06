@@ -6,9 +6,9 @@ import (
 	"sync"
 	"unsafe"
 
+	sqlite3 "github.com/min-0-max/sqlite/lib"
 	"modernc.org/libc"
 	"modernc.org/libc/sys/types"
-	sqlite3 "modernc.org/sqlite/lib"
 )
 
 var (

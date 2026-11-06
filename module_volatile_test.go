@@ -12,7 +12,7 @@ import (
 	"sync"
 	"testing"
 
-	"modernc.org/sqlite/vtab"
+	"github.com/min-0-max/sqlite/vtab"
 )
 
 // volNoopModule is a minimal vtab module used by the VolatileArgs vtab

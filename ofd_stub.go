@@ -4,7 +4,7 @@
 
 //go:build !unix
 
-package sqlite // import "modernc.org/sqlite"
+package sqlite // import "github.com/min-0-max/sqlite"
 
 // ofdLocking mirrors the unix implementation where the transpiled library
 // does not export modernc_ofd_locking(): os_win.c compiles none of the unix

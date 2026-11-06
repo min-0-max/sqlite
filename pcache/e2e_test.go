@@ -11,8 +11,8 @@ import (
 	"path/filepath"
 	"testing"
 
-	"modernc.org/sqlite"
-	"modernc.org/sqlite/pcache"
+	"github.com/min-0-max/sqlite"
+	"github.com/min-0-max/sqlite/pcache"
 )
 
 // poolUnderTest is the singleton Pool installed in TestMain. The

@@ -10,8 +10,8 @@ import (
 	"time"
 	"unsafe"
 
+	sqlite3 "github.com/min-0-max/sqlite/lib"
 	"modernc.org/libc"
-	sqlite3 "modernc.org/sqlite/lib"
 )
 
 // busyConns maps a connection handle to its conn, so that busyHandler finds

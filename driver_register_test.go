@@ -15,7 +15,7 @@ import (
 	"sync/atomic"
 	"testing"
 
-	"modernc.org/sqlite/vtab"
+	"github.com/min-0-max/sqlite/vtab"
 )
 
 // reachModule reports that it was reached by failing Create/Connect with a

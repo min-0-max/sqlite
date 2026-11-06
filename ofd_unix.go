@@ -4,11 +4,11 @@
 
 //go:build unix
 
-package sqlite // import "modernc.org/sqlite"
+package sqlite // import "github.com/min-0-max/sqlite"
 
 import (
+	sqlite3 "github.com/min-0-max/sqlite/lib"
 	"modernc.org/libc"
-	sqlite3 "modernc.org/sqlite/lib"
 )
 
 // ofdLocking calls the modernc_ofd_locking() gate the transpiled library

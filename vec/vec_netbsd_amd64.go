@@ -5,8 +5,8 @@
 package vec
 
 import (
+	libsqlite3 "github.com/min-0-max/sqlite/lib"
 	"modernc.org/libc"
-	libsqlite3 "modernc.org/sqlite/lib"
 )
 
 type TFILE = struct {

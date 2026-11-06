@@ -314,4 +314,4 @@
 // See https://sqlite.org/docs.html
 //
 // [The SQLite Drivers Benchmarks Game]: https://pkg.go.dev/modernc.org/sqlite-bench#readme-tl-dr-scorecard
-package sqlite // import "modernc.org/sqlite"
+package sqlite // import "github.com/min-0-max/sqlite"

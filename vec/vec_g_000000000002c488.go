@@ -7,8 +7,8 @@ package vec
 import (
 	"unsafe"
 
+	libsqlite3 "github.com/min-0-max/sqlite/lib"
 	"modernc.org/libc"
-	libsqlite3 "modernc.org/sqlite/lib"
 )
 
 func Xvec0Filter_knn(tls *libc.TLS, pCur uintptr, p uintptr, idxNum int32, idxStr uintptr, argc int32, argv uintptr) (r int32) {

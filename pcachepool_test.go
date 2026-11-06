@@ -10,8 +10,8 @@ import (
 	"errors"
 	"testing"
 
-	"modernc.org/sqlite"
-	"modernc.org/sqlite/pcache"
+	"github.com/min-0-max/sqlite"
+	"github.com/min-0-max/sqlite/pcache"
 )
 
 // Built with -tags pcachepool (make test_pcache), the whole test suite runs

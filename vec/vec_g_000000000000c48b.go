@@ -7,8 +7,8 @@ package vec
 import (
 	"unsafe"
 
+	libsqlite3 "github.com/min-0-max/sqlite/lib"
 	"modernc.org/libc"
-	libsqlite3 "modernc.org/sqlite/lib"
 )
 
 func Xnpy_token_next(tls *libc.TLS, start uintptr, end uintptr, out uintptr) (r int32) {

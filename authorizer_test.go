@@ -14,7 +14,7 @@ import (
 	"sync/atomic"
 	"testing"
 
-	sqlite3 "modernc.org/sqlite/lib"
+	sqlite3 "github.com/min-0-max/sqlite/lib"
 )
 
 func authorizerConn(t *testing.T) (*sql.DB, *sql.Conn) {

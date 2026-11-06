@@ -4,7 +4,7 @@
 
 //go:build linux
 
-package sqlite // import "modernc.org/sqlite"
+package sqlite // import "github.com/min-0-max/sqlite"
 
 import (
 	"bytes"

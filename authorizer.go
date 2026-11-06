@@ -2,13 +2,13 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
-package sqlite // import "modernc.org/sqlite"
+package sqlite // import "github.com/min-0-max/sqlite"
 
 import (
 	"sync"
 
+	sqlite3 "github.com/min-0-max/sqlite/lib"
 	"modernc.org/libc"
-	sqlite3 "modernc.org/sqlite/lib"
 )
 
 // AuthorizerActionCode identifies an operation presented to SQLite's

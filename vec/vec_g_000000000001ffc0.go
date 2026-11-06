@@ -7,8 +7,8 @@ package vec
 import (
 	"unsafe"
 
+	libsqlite3 "github.com/min-0-max/sqlite/lib"
 	"modernc.org/libc"
-	libsqlite3 "modernc.org/sqlite/lib"
 )
 
 func Xbitmap_and_inplace(tls *libc.TLS, base uintptr, other uintptr, n Ti32) {

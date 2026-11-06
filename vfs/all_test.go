@@ -13,7 +13,7 @@ import (
 	"testing"
 	"testing/iotest"
 
-	"modernc.org/sqlite"
+	"github.com/min-0-max/sqlite"
 )
 
 func E(err error) string {

@@ -13,8 +13,8 @@ import (
 	"strings"
 	"unicode/utf8"
 
-	_ "modernc.org/sqlite"
-	"modernc.org/sqlite/vtab"
+	_ "github.com/min-0-max/sqlite"
+	"github.com/min-0-max/sqlite/vtab"
 )
 
 // A tiny CSV loader example that:

@@ -11,8 +11,8 @@ import (
 	"runtime"
 	"testing"
 
-	"modernc.org/sqlite"
-	"modernc.org/sqlite/pcache"
+	"github.com/min-0-max/sqlite"
+	"github.com/min-0-max/sqlite/pcache"
 )
 
 // BenchmarkPoolBoundedCache exercises the workload from the SQLite

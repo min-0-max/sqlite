@@ -7,8 +7,8 @@ package vec
 import (
 	"unsafe"
 
+	libsqlite3 "github.com/min-0-max/sqlite/lib"
 	"modernc.org/libc"
-	libsqlite3 "modernc.org/sqlite/lib"
 )
 
 func Xarray_append(tls *libc.TLS, array uintptr, element uintptr) (r int32) {

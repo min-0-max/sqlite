@@ -9,7 +9,7 @@ import (
 	"math"
 	"testing"
 
-	_ "modernc.org/sqlite/vec"
+	_ "github.com/min-0-max/sqlite/vec"
 )
 
 func TestVec(t *testing.T) {

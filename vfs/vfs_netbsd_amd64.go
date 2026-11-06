@@ -8,9 +8,9 @@ import (
 	"sync/atomic"
 	"unsafe"
 
+	"github.com/min-0-max/sqlite/lib"
 	"modernc.org/libc"
 	"modernc.org/libc/sys/types"
-	"modernc.org/sqlite/lib"
 )
 
 var _ = math.Pi

@@ -48,9 +48,9 @@ import (
 	"sync/atomic"
 	"unsafe"
 
+	"github.com/min-0-max/sqlite"
 	"modernc.org/libc"
 	"modernc.org/libc/sys/types"
-	"modernc.org/sqlite"
 )
 
 // Pool is the factory side of the [sqlite.PageCache] contract. It is

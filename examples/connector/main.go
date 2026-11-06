@@ -23,7 +23,7 @@ import (
 	"path/filepath"
 	"sync/atomic"
 
-	"modernc.org/sqlite"
+	"github.com/min-0-max/sqlite"
 )
 
 // tracingConnector is the wrapper an instrumentation library writes: it
