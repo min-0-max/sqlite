@@ -10,6 +10,8 @@ import (
 	"os"
 	"sync/atomic"
 	"testing"
+
+	"github.com/min-0-max/sqlite"
 )
 
 // TestFSCloseInUse checks that closing a file system with a database still
