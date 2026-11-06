@@ -4,6 +4,7 @@ import (
 	"database/sql"
 	"fmt"
 	"slices"
+	"strings"
 	"testing"
 
 	"modernc.org/sqlite"
@@ -177,5 +178,63 @@ func TestPreUpdateHookLargeRowID(t *testing.T) {
 	}
 	if gotNewRowID != newLargeRowID {
 		t.Errorf("NewRowID after UPDATE: got %d, want %d", gotNewRowID, newLargeRowID)
+	}
+}
+
+// TestPreUpdateHookTextByLength pins that the old and new values of a text the pre-update hook reports are read by
+// their length, so a text holding a NUL, an empty text and a text of many bytes come whole.
+func TestPreUpdateHookTextByLength(t *testing.T) {
+	texts := []string{"a\x00b", "\x00", "", "plain", strings.Repeat("x\x00", 4096)}
+	var olds, news []any
+	var testDriver sqlite.Driver
+	testDriver.RegisterConnectionHook(func(conn sqlite.ExecQuerierContext, dsn string) error {
+		hooker, ok := conn.(sqlite.HookRegisterer)
+		if !ok {
+			t.Fatal("the connection registers no hook")
+		}
+		hooker.RegisterPreUpdateHook(func(data sqlite.SQLitePreUpdateData) {
+			if data.Op != sqlite3.SQLITE_UPDATE {
+				return
+			}
+			old, new := make([]any, data.Count()), make([]any, data.Count())
+			if err := data.Old(old...); err != nil {
+				t.Error(err)
+			}
+			if err := data.New(new...); err != nil {
+				t.Error(err)
+			}
+			olds, news = append(olds, old[0]), append(news, new[0])
+		})
+		return nil
+	})
+	sql.Register("sqlite_pre_update_hook_text_test", &testDriver)
+	db, err := sql.Open("sqlite_pre_update_hook_text_test", ":memory:")
+	if err != nil {
+		t.Fatal(err)
+	}
+	defer db.Close()
+	db.SetMaxOpenConns(1)
+	if _, err := db.Exec("CREATE TABLE t (v TEXT)"); err != nil {
+		t.Fatal(err)
+	}
+	for _, text := range texts {
+		olds, news = nil, nil
+		if _, err := db.Exec("DELETE FROM t"); err != nil {
+			t.Fatal(err)
+		}
+		if _, err := db.Exec("INSERT INTO t (v) VALUES (?)", text); err != nil {
+			t.Fatal(err)
+		}
+		if _, err := db.Exec("UPDATE t SET v = v || ?", text); err != nil {
+			t.Fatal(err)
+		}
+		if len(olds) != 1 || len(news) != 1 {
+			t.Fatalf("the update of a text of %d bytes reports %d old and %d new values", len(text), len(olds), len(news))
+		}
+		if olds[0] != text || news[0] != text+text {
+			old, _ := olds[0].(string)
+			new, _ := news[0].(string)
+			t.Errorf("the update of a text of %d bytes reports an old text of %d bytes and a new one of %d, want %d", len(text), len(old), len(new), 2*len(text))
+		}
 	}
 }

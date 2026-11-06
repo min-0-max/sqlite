@@ -190,7 +190,15 @@ func (d *SQLitePreUpdateData) value(ppValue uintptr, i int, new bool) (any, erro
 		}
 		src = v
 	case sqlite3.SQLITE_TEXT:
-		src = libc.GoString(sqlite3.Xsqlite3_value_text(d.tls, ptrValue))
+		// A text is read by its length, since it may hold a NUL: sqlite3_value_text first, then sqlite3_value_bytes,
+		// as SQLite's documentation orders them.
+		textPtr := sqlite3.Xsqlite3_value_text(d.tls, ptrValue)
+		size := sqlite3.Xsqlite3_value_bytes(d.tls, ptrValue)
+		var v string
+		if size != 0 {
+			v = string((*libc.RawMem)(unsafe.Pointer(textPtr))[:size:size])
+		}
+		src = v
 	case sqlite3.SQLITE_NULL:
 		src = nil
 	}
