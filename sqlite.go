@@ -440,6 +440,15 @@ func applyQueryParams(c *conn, query string, defensive bool) error {
 		c.intToTime = onoff
 	}
 
+	if v := q.Get("_decltime"); v != "" {
+		onoff, err := strconv.ParseBool(v)
+		if err != nil {
+			return fmt.Errorf("unknown _decltime %q, must be 1, t, T, TRUE, true, True, 0, f, F, FALSE, false, False",
+				v)
+		}
+		c.declTimeText = !onoff
+	}
+
 	if v := q.Get("_texttotime"); v != "" {
 		onoff, err := strconv.ParseBool(v)
 		if err != nil {

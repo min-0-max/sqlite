@@ -189,6 +189,11 @@ func defaultDriver() *Driver { return d }
 // the raw stored text. A value that does not parse as a time is delivered
 // unchanged as the original string.
 //
+// _decltime: Whether the TEXT of a column declared DATE, DATETIME or
+// TIMESTAMP is parsed as a time.Time, as it is by default. With _decltime=0 it
+// is delivered as the stored string, byte for byte, as SQLite stores it, and
+// ColumnTypeScanType reports string for it even under _texttotime.
+//
 // _timezone: A timezone to use for all time reads and writes, such as "UTC".
 // The value is parsed by time.LoadLocation.
 // Writes will convert to the timezone before formatting as a string;
