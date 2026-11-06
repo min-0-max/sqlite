@@ -194,6 +194,10 @@ func (r *rows) Next(dest []driver.Value) (err error) {
 
 				switch r.ColumnTypeDatabaseTypeName(i) {
 				case "DATE", "DATETIME", "TIMESTAMP":
+					if r.c.declTimeText {
+						dest[i] = v
+						continue
+					}
 					val, ok, idx := r.c.parseTime(v, int(r.parseFmtIdx[i]))
 					if ok && r.parseFmtIdx[i] < 0 && idx >= 0 {
 						r.parseFmtIdx[i] = int8(idx)
@@ -326,7 +330,7 @@ func (r *rows) ColumnTypeScanType(index int) reflect.Type {
 	case sqlite3.SQLITE_FLOAT:
 		return reflect.TypeOf(float64(0))
 	case sqlite3.SQLITE_TEXT:
-		if r.c.textToTime {
+		if r.c.textToTime && !r.c.declTimeText {
 			switch r.decltypes[index] {
 			case "DATE", "DATETIME", "TIME", "TIMESTAMP":
 				return reflect.TypeOf(time.Time{})
